@@ -1,0 +1,26 @@
+sourceSets {
+  integrationTest {
+    java.srcDir file(integrationTestSourceDir)
+    resources.srcDir file(integrationTestResourceDir)
+    //compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+    compileClasspath += main.output + test.output
+    runtimeClasspath += main.output + test.output
+  }
+}
+
+configurations {
+  integrationTestImplementation.extendsFrom testImplementation
+}
+
+task integrationTest(type: Test) {
+  useJUnitPlatform()
+
+  description = 'Runs integration test'
+  group = 'verification'
+
+  testClassesDirs = sourceSets.integrationTest.output.classesDirs
+  classpath = sourceSets.integrationTest.runtimeClasspath
+  include '**/*IT.class'
+}
+
+tasks.named("processIntegrationTestResources") { duplicatesStrategy = 'include' }

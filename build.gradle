@@ -1,0 +1,54 @@
+plugins {
+  id 'org.springframework.boot' version '2.6.4'
+  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id 'java'
+  id 'idea'
+  id 'jvm-test-suite'
+}
+
+apply from: 'integrationTestPlugin.gradle'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  compileOnly 'org.projectlombok:lombok'
+  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  annotationProcessor 'org.projectlombok:lombok'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testCompileOnly 'org.apiguardian:apiguardian-api:1.0.0'
+}
+
+//testing {
+//  suites {
+//    test {
+//      useJUnitJupiter()
+//    }
+//    integrationTest(JvmTestSuite) {
+//      dependencies {
+//        implementation project
+//      }
+//      sources {
+//        java {
+//          srcDirs = ['src/integrationTest/java']
+//        }
+//      }
+//    }
+//  }
+//}
+
+tasks.named('test') {
+  useJUnitPlatform()
+}
